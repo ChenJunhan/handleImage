@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>图片处理</title>
+<style type="text/css">
+    #uploadImg img{
+        width: 200px;
+    }
+</style>
+<body>
+    <input type="file" id="file">
+    <div id="uploadImg"></div>
+    <script src="exif.js"></script>
+    <script src="handleImage.js"></script>
+    <script>
+        window.onload = function () {
+            document.querySelector('#file').addEventListener('change', async function (e) {
+                let files = e.target.files
+                let list = await IH.imageRotate(files, {
+                    inputType: 'file',
+                    outputType: 'base64',
+                    success (data) {
+                        document.querySelector('#uploadImg').innerHTML = `<img src="${data[0]}">`
+                    },
+                    fail (error) {
+                        console.log('图片处理失败')
+                    }
+                })
+                console.log('list:', list)
+            })
+        }
+    </script>
+</body>
+</html>
